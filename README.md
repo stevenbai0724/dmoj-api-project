@@ -1,3 +1,3 @@
-# dmoj-api-project
+# Dmoj user profile webapp 
 
-API fetching practice with simple full stack project
+using DMOJ API to display user profile 
