@@ -1,0 +1,28 @@
+{
+  "name": "dmoj-user-profile",
+  "version": "1.0.0",
+  "description": "react + express app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevenbai0724/dmoj-user-profile.git"
+  },
+  "author": "Steven Bai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevenbai0724/dmoj-user-profile/issues"
+  },
+  "homepage": "https://github.com/stevenbai0724/dmoj-user-profile#readme",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "concurrently": "^6.2.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
