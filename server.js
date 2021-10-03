@@ -8,7 +8,7 @@ app.use(express.json())
 
 app.get('/api/user', async (req, res) => {
 
-    const API_KEY = "AADIy1mAf4drSheboMJlKmamABlHvor6cA6iBOJhuAXc5wsx";
+    const API_KEY = "";
 
 
     const requestOptions = {
@@ -16,16 +16,17 @@ app.get('/api/user', async (req, res) => {
             Authorization: `Bearer ${API_KEY}`
         },
     }
+
     const res2 = await axios.get('https://dmoj.ca/api/v2/user/stevenbai0724', requestOptions)
-
-
 
     var profile = (res2.data.data);
 
+    console.log("PLEASE LOG SOMETHING")
+
     res.json(profile)
 
-
 })
+
 
 const port = 5000;
 

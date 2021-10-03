@@ -1,5 +1,6 @@
-import react from 'react'
+import {useState, useEffect} from 'react'
 import { makeStyles} from "@material-ui/core";
+import Search from '../assets/search.png';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -15,9 +16,8 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        position: "absolute",
         width: "100%",
-        height: "90px",
+        height: "10%",
         backgroundColor: "#3B3B3B",
     },
     titleWrap: {
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
         borderWidth: "2px",
         borderStyle: "solid",
         width: "27%",
+        
     },
     searchWrap: {
         display: "flex",
@@ -35,27 +36,41 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "row",
         borderWidth: "4px",
         borderStyle: "solid",
-        width: "30%",
-        height: "65%",
+        width: "40%",   
+        height: "45px",
         borderColor: "#605D5D",
         borderRadius: 10,
     },
     searchBox: {
         borderWidth: "0px",
+        width: "100%",
         border: "none",
         background: "transparent",
         color: 'white',
         fontSize: 20,
+        height: "100%",
+        display: "flex",
+        flexDirection: "row",
         '&:focus' : {
             outline: "none",
         }
-        
-
+    },
+    img: {
+        height: "50%",
+        marginLeft: "10px",
+        marginRight: "10px",
     },
     
 
 }))
 function App() {
+    const [user, setUser] = useState('');
+
+    const search = evt => {
+        if(evt.key === "Enter"){
+            console.log('user: ' + user)
+        }
+    }
     const classes = useStyles();
 
 
@@ -67,11 +82,15 @@ function App() {
 
         <div className = {classes.searchWrap}>
 
+        <img src = {Search} alt = "search" className = {classes.img}/>
+
         <input
             type = "text"
             className = {classes.searchBox}
             placeholder = "Search for a user..."
-        
+            onChange = {e => setUser(e.target.value)}
+            onKeyPress = {search}
+
         >
         </input>
 
