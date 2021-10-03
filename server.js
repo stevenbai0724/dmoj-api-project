@@ -5,9 +5,10 @@ const axios = require('axios')
 
 app.use(express.json())
 
+
 app.get('/api/user', async (req, res) => {
 
-    const API_KEY = "";
+    const API_KEY = "AADIy1mAf4drSheboMJlKmamABlHvor6cA6iBOJhuAXc5wsx";
 
 
     const requestOptions = {
