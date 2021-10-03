@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "kill": "killall node"
   },
   "repository": {
     "type": "git",
@@ -18,6 +21,7 @@
   },
   "homepage": "https://github.com/stevenbai0724/dmoj-user-profile#readme",
   "dependencies": {
+    "@material-ui/core": "^4.12.1",
     "axios": "^0.21.4",
     "concurrently": "^6.2.1",
     "express": "^4.17.1"

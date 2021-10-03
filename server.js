@@ -15,7 +15,7 @@ app.get('/api/user', async (req, res) => {
             Authorization: `Bearer ${API_KEY}`
         },
     }
-    const res2 = await axios.get('https://dmoj.ca/api/v2/users', requestOptions)
+    const res2 = await axios.get('https://dmoj.ca/api/v2/user/stevenbai0724', requestOptions)
 
 
 
