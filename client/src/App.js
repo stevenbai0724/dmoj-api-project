@@ -1,8 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import Topbar from './components/Topbar'
-import { makeStyles} from "@material-ui/core";
+import { makeStyles, ButtonBase} from "@material-ui/core";
 import DMOJ from './assets/dmoj.png';
+import {useState, useEffect, useRef} from 'react'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -19,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
     rightContainer: {
         
         display: "flex",
-        alignItems: "center",
-        flexDirection: "row",
+        flexDirection: "column",
         borderWidth: "2px",
         borderStyle: "solid",
         width: "53%",
@@ -32,6 +31,19 @@ const useStyles = makeStyles((theme) => ({
       borderStyle: "solid",
 
     },
+    btnbase: {
+      width: "50%",
+      backgroundColor: "#3B3B3B",
+      borderRadius: 10,
+    },
+    img: {
+      width: "100%",
+    },
+    h1: {
+      color: "white",
+      fontSize: "32px",
+      marginTop: "-5px",
+    },
 
 }))
 function App() {
@@ -42,14 +54,17 @@ function App() {
     <div>
       <Topbar/>
       <div className = "App-header">
+        <br></br>
         <div className = {classes.contentBox}>
           <div className = {classes.leftContainer}>
-
+              <ButtonBase className = {classes.btnbase}><img src = {DMOJ} alt = "DMOJ" className = {classes.img}></img></ButtonBase>
 
           </div>
 
           <div className = {classes.rightContainer}>
+              <h1 className = {classes.h1}>stevenbai0724</h1>
 
+              
           </div>
 
           

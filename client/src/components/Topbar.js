@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import { makeStyles} from "@material-ui/core";
 import Search from '../assets/search.png';
 
@@ -25,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        borderWidth: "2px",
-        borderStyle: "solid",
         width: "27%",
         
     },
@@ -65,38 +63,67 @@ const useStyles = makeStyles((theme) => ({
 }))
 function App() {
     const [user, setUser] = useState('');
+    const [step, setStep] = useState(1);
 
     const search = evt => {
         if(evt.key === "Enter"){
             console.log('user: ' + user)
+            setStep(step+1)
+            
         }
     }
     const classes = useStyles();
 
+    const isMounted = useRef(false);
+    useEffect (() => {
 
-  return (
-    <div className = {classes.bar}>
-        <div className = {classes.titleWrap}>
-            <h1 className = {classes.textYellow}>DM</h1><h1 className = {classes.textGray}>OJ</h1><h1 className = {classes.textYellow}>ST</h1><h1 className = {classes.textGray}>ATS</h1>
-        </div>
+        if(isMounted.current){
+            console.log("re-render")
 
-        <div className = {classes.searchWrap}>
-
-        <img src = {Search} alt = "search" className = {classes.img}/>
-
-        <input
-            type = "text"
-            className = {classes.searchBox}
-            placeholder = "Search for a user..."
-            onChange = {e => setUser(e.target.value)}
-            onKeyPress = {search}
-
-        >
-        </input>
-
-        </div>
+            const postBody = {
+                user: user
+            }
+    
+            fetch('/api/user', {
+                method: "POST",
+                body: JSON.stringify(postBody),
+                headers: { 'Content-Type': 'application/json'}
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                })
+        }
+        else {
+            isMounted.current = true;
+        }
+    }, [step])
         
-    </div>
+
+
+
+    return (
+        <div className = {classes.bar}>
+            <div className = {classes.titleWrap}>
+                <h1 className = {classes.textYellow}>DM</h1><h1 className = {classes.textGray}>OJ</h1><h1 className = {classes.textYellow}>ST</h1><h1 className = {classes.textGray}>ATS</h1>
+            </div>
+
+            <div className = {classes.searchWrap}>
+
+            <img src = {Search} alt = "search" className = {classes.img}/>
+
+            <input
+                type = "text"
+                className = {classes.searchBox}
+                placeholder = "Search for a user..."
+                onChange = {e => setUser(e.target.value)}
+                onKeyPress = {search}
+
+            >
+            </input>
+
+            </div>
+            
+        </div>
   );
 }
 

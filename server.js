@@ -6,7 +6,7 @@ const axios = require('axios')
 app.use(express.json())
 
 
-app.get('/api/user', async (req, res) => {
+app.post('/api/user', async (req, res) => {
 
     const API_KEY = "";
 
@@ -17,15 +17,14 @@ app.get('/api/user', async (req, res) => {
         },
     }
 
-    const res2 = await axios.get('https://dmoj.ca/api/v2/user/stevenbai0724', requestOptions)
+    const res2 = await axios.get(`https://dmoj.ca/api/v2/user/${req.body.user}`, requestOptions)
 
     var profile = (res2.data.data);
-
-    console.log("PLEASE LOG SOMETHING")
 
     res.json(profile)
 
 })
+
 
 
 const port = 5000;
