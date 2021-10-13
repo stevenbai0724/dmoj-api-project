@@ -3,6 +3,7 @@ import Topbar from './components/Topbar'
 import { makeStyles, ButtonBase} from "@material-ui/core";
 import DMOJ from './assets/dmoj.png';
 import {useState, useEffect, useRef} from 'react'
+import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -11,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        borderWidth: "2px",
-        borderStyle: "solid",
+
         width: "27%",
         
     },
@@ -20,15 +20,12 @@ const useStyles = makeStyles((theme) => ({
         
         display: "flex",
         flexDirection: "column",
-        borderWidth: "2px",
-        borderStyle: "solid",
+
         width: "53%",
     },
     contentBox: {
       display: "flex",
       flexDirection: "row",
-      borderWidth: "2px",
-      borderStyle: "solid",
 
     },
     btnbase: {
@@ -49,10 +46,15 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
 
+  const [name, setName] = React.useState('');
+  const receiveData = (input) => {
+    console.log('data received ' + input);
+    setName(input);
 
+  }
   return (
     <div>
-      <Topbar/>
+      <Topbar prop = {receiveData} />
       <div className = "App-header">
         <br></br>
         <div className = {classes.contentBox}>
@@ -62,7 +64,7 @@ function App() {
           </div>
 
           <div className = {classes.rightContainer}>
-              <h1 className = {classes.h1}>stevenbai0724</h1>
+              <h1 className = {classes.h1}>{name}</h1>
 
               
           </div>

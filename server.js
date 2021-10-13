@@ -8,7 +8,7 @@ app.use(express.json())
 
 app.post('/api/user', async (req, res) => {
 
-    const API_KEY = "";
+    const API_KEY = "AADIy1mAf4drSheboMJlKmamABlHvor6cA6iBOJhuAXc5wsx";
 
 
     const requestOptions = {
@@ -22,6 +22,8 @@ app.post('/api/user', async (req, res) => {
     var profile = (res2.data.data);
 
     res.json(profile)
+    
+
 
 })
 

@@ -59,9 +59,8 @@ const useStyles = makeStyles((theme) => ({
         marginRight: "10px",
     },
     
-
 }))
-function App() {
+function App({prop}) {
     const [user, setUser] = useState('');
     const [step, setStep] = useState(1);
 
@@ -69,6 +68,7 @@ function App() {
         if(evt.key === "Enter"){
             console.log('user: ' + user)
             setStep(step+1)
+            prop(user)
             
         }
     }
