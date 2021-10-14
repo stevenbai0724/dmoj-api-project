@@ -63,12 +63,12 @@ const useStyles = makeStyles((theme) => ({
 function App({prop}) {
     const [user, setUser] = useState('');
     const [step, setStep] = useState(1);
+    const [obj, setObj] = useState(null);
 
     const search = evt => {
         if(evt.key === "Enter"){
             console.log('user: ' + user)
             setStep(step+1)
-            prop(user)
             
         }
     }
@@ -91,6 +91,7 @@ function App({prop}) {
             }).then(res => res.json())
                 .then(data => {
                     console.log(data)
+                    prop(data)
                 })
         }
         else {
