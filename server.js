@@ -17,7 +17,7 @@ app.post('/api/user', async (req, res) => {
         },
     }
 
-    const res2 = await axios.get(`https://dmoj.ca/api/v2/user/${req.body.user}`, requestOptions)
+    const res2 = await axios.get(req.body.user, requestOptions)
 
     var profile = (res2.data.data);
 

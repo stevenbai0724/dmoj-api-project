@@ -92,13 +92,20 @@ function App() {
         ]
     },
   });
-
+  var counter = 0;
+  const [contestCount, setContestCount] = useState(0);
+  //const isMounted = useRef(false);
   const receiveData = (input) => {
-    console.log('data received ' + JSON.stringify(input.object.points));
+
+    console.log('data received ' + JSON.stringify(input.object.username));
     setData(input);
     setShow(true);
+    input.object.contests.forEach(function(item, index, array){
+      if(item.performance !== null){
+        counter++;
+      }
+    })
     
-
   }
   var rating = data.object.rating
   var sub = `https://dmoj.ca/submissions/user/${data.object.username}`
@@ -106,6 +113,7 @@ function App() {
   return (
     
     <div>
+      
       <Topbar prop = {receiveData} />
       <div className = "App-header">
         <br></br>
@@ -121,7 +129,7 @@ function App() {
 
                     <h3 className = {classes.h3}>Elo rating: {rating}</h3>
                     <h3 className = {classes.h3}>Problems solved: {data.object.problem_count}</h3>
-                    <h3 className = {classes.h3}>Contests written: </h3>
+                    <h3 className = {classes.h3}>Contests written: {contestCount}</h3>
                     <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
                     <h3 className = {classes.h3}>Adjusted Points: {data.object.performance_points.toFixed(0)} </h3>
                     <h3 className = {classes.h3}>Total submissions: </h3>
