@@ -80,17 +80,19 @@ function App({prop}) {
         if(isMounted.current){
             console.log("re-render")
 
-            const postBodyUser = {
-                user: `https://dmoj.ca/api/v2/user/${user}`
+            const postBody = {
+                user: `https://dmoj.ca/api/v2/user/${user}`,
+                sub: `https://dmoj.ca/api/user/submissions/${user}`
+
             }
 
             fetch('/api/user', {
                 method: "POST",
-                body: JSON.stringify(postBodyUser),
+                body: JSON.stringify(postBody),
                 headers: { 'Content-Type': 'application/json'}
             }).then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    console.log(data);
                     prop(data)
                 })
         }

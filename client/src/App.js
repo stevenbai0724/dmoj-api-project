@@ -89,25 +89,22 @@ function App() {
                 "raw_rating": "<user raw rating after this contest, or null if not rated>",
                 "performance": "<user performance, or null if not rated>"
             }
-        ]
+        ],
+        contestCount: "<(custom attribute) number of rated contests>",
+        subCount: "<(custom attribute) total submission count",
+
     },
   });
-  var counter = 0;
-  const [contestCount, setContestCount] = useState(0);
-  //const isMounted = useRef(false);
+
+
   const receiveData = (input) => {
 
     console.log('data received ' + JSON.stringify(input.object.username));
+
     setData(input);
-    setShow(true);
-    input.object.contests.forEach(function(item, index, array){
-      if(item.performance !== null){
-        counter++;
-      }
-    })
-    
+    setShow(true);    
   }
-  var rating = data.object.rating
+  var rating = data.object.rating === null ? "null" : data.object.rating
   var sub = `https://dmoj.ca/submissions/user/${data.object.username}`
 
   return (
@@ -129,10 +126,10 @@ function App() {
 
                     <h3 className = {classes.h3}>Elo rating: {rating}</h3>
                     <h3 className = {classes.h3}>Problems solved: {data.object.problem_count}</h3>
-                    <h3 className = {classes.h3}>Contests written: {contestCount}</h3>
+                    <h3 className = {classes.h3}>Contests written: {data.object.contestCount}</h3>
                     <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
                     <h3 className = {classes.h3}>Adjusted Points: {data.object.performance_points.toFixed(0)} </h3>
-                    <h3 className = {classes.h3}>Total submissions: </h3>
+                    <h3 className = {classes.h3}>Total submissions: {data.object.subCount}</h3>
                     <a href = {sub} target="_blank" className = {classes.link}><h3 className = {classes.h3} style={{color:"#889BCB"}}>View submissions</h3></a>
 
                   </div>
@@ -151,12 +148,12 @@ function App() {
 
                     {/* title */}
                     {
-                      rating === null && 
+                      rating === "null" && 
                       <h2 className = {classes.rank} style={{color:"#b1c9dc"}}>Unrated</h2> 
                                     
                     }
                     {
-                      rating <1000 && rating != null && 
+                      rating <1000 && rating != "null" && 
                       <h2 className = {classes.rank} style={{color:"#b1c9dc"}}>Newbie</h2>
                     }
                     {
@@ -181,7 +178,7 @@ function App() {
                     }                           
                     {
                       rating >=3000 &&
-                      <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Target</h2>
+                      <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
                     }              
                   
 
