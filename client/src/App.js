@@ -4,7 +4,8 @@ import { makeStyles, ButtonBase} from "@material-ui/core";
 import DMOJ from './assets/dmoj.png';
 import {useState, useEffect, useRef} from 'react'
 import React from 'react'
-
+import RadarChart from 'react-svg-radar-chart';
+import './Radar.css';
 const useStyles = makeStyles((theme) => ({
 
     leftContainer: {
@@ -49,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "20px",
       fontWeight: "normal",
     },
+    h3Left: {
+      color: "white",
+      fontSize: "20px",
+      fontWeight: "normal",
+      float: "left",
+    },
     link: {
       textDecoration: "none",
       color: "#889BCB",
@@ -65,6 +72,38 @@ function App() {
   const classes = useStyles();
 
   const [show, setShow] = useState(false);
+  const defaultOptions = {
+    axes: true,
+    captions: true,
+    dots: true,
+    scales: 3, 
+  }
+  const radar = [
+    {
+      data: {
+        adhoc: .65,
+        graph: .9,
+        dp: .7,
+        string: .4,
+        math: .7,
+        greedy: .5,
+        data: .6,
+      },
+      meta: { color: 'blue' }
+    },
+
+  ];
+
+const captions = {
+    // columns
+    adhoc: 'Ad Hoc',
+    graph: 'Graph Theory',
+    dp: 'DP',
+    string: 'String Algorithms',
+    math: 'Math',
+    greedy: 'Greedy ',
+    data: 'Data Structures',
+  };
   const [data, setData] = useState({
     object : {
         id: "<user id>",
@@ -95,14 +134,26 @@ function App() {
 
     },
   });
-
+  const [colorRating, setColorRating] = useState('');
 
   const receiveData = (input) => {
 
     console.log('data received ' + JSON.stringify(input.object.username));
+    var rank = input.object.rating
+
+    if(rank === null )setColorRating("#fff");
+    if(rank != null && rank < 1000) setColorRating("#b1c9dc");
+    if(rank >= 1000 && rank < 1300) setColorRating("#46ff46");
+    if(rank >= 1300 && rank < 1600) setColorRating("#5398ff");
+    if(rank >= 1600 && rank < 1900) setColorRating("#ff53ff");
+    if(rank >= 1900 && rank < 2400) setColorRating("#fffc1a");
+    if(rank >= 2400 ) setColorRating("#ff0c0c");
+
 
     setData(input);
-    setShow(true);    
+
+    setShow(true);   
+
   }
   var rating = data.object.rating === null ? "null" : data.object.rating
   var sub = `https://dmoj.ca/submissions/user/${data.object.username}`
@@ -124,7 +175,7 @@ function App() {
 
                   <div>
 
-                    <h3 className = {classes.h3}>Elo rating: {rating}</h3>
+                    <h3 className = {classes.h3Left} >Elo rating: &nbsp;</h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
                     <h3 className = {classes.h3}>Problems solved: {data.object.problem_count}</h3>
                     <h3 className = {classes.h3}>Contests written: {data.object.contestCount}</h3>
                     <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
@@ -180,14 +231,19 @@ function App() {
                       rating >=3000 &&
                       <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
                     }              
-                  
+                  <RadarChart 
+                    captions = {captions}
+                    data={radar}
+                    size={600}
+                    options={defaultOptions}
+                  ></RadarChart>
 
               </div>
           }
           
         </div>
       </div>
-
+        
 
     </div>
   );
