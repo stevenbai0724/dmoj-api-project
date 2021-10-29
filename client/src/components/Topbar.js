@@ -81,6 +81,7 @@ function App({prop}) {
             console.log("re-render")
 
             const postBody = {
+                name: `${user}`,
                 user: `https://dmoj.ca/api/v2/user/${user}`,
                 sub: `https://dmoj.ca/api/user/submissions/${user}`
 
