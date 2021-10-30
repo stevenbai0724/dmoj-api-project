@@ -1,6 +1,6 @@
 import './App.css';
 import Topbar from './components/Topbar'
-import { makeStyles, ButtonBase} from "@material-ui/core";
+import { makeStyles, ButtonBase, Button} from "@material-ui/core";
 import DMOJ from './assets/dmoj.png';
 import {useState, useEffect, useRef} from 'react'
 import React from 'react'
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         width: "53%",
+
     },
     contentBox: {
       display: "flex",
@@ -65,6 +66,37 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "row",
       alignItems: "center",
       height: "50px",
+    },
+    scrollBox: {
+      overflowY: "scroll",
+      width: "800px",
+      height: "500px",
+      
+      '&::-webkit-scrollbar' :{
+        display: "none",
+      },
+
+    },
+    
+    contestBox: {
+      width: "700px",
+      height: "175px",
+      borderWidth: "2px",
+      borderStyle: "solid",
+      borderColor: "white",
+      backgroundColor: "#1f2940",
+      display: "flex",
+      flexDirection : "column",
+      
+
+    },
+
+    ratingGain: {
+      backgroundColor: "#53F23F",
+      borderRadius: 20,
+      width: "100px",
+      height: "100px",
+      marginRight: "30px",
     },
 
 }))
@@ -195,7 +227,7 @@ const captions = {
 
               <div className = {classes.rightContainer}>
 
-                    <h1 className = {classes.h1}>{data.object.username}</h1>
+                    <h1 style={{fontWeight: "bold"}} className = {classes.h1}>{data.object.username}</h1>
 
                     {/* title */}
                     {
@@ -231,12 +263,55 @@ const captions = {
                       rating >=3000 &&
                       <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
                     }              
-                  <RadarChart 
-                    captions = {captions}
-                    data={radar}
-                    size={600}
-                    options={defaultOptions}
-                  ></RadarChart>
+
+                  
+                  <h1 style={{fontWeight: "normal", fontSize: "23px"}}>Contest History</h1>
+                  <div className = {classes.scrollBox}>
+                    <div className = {classes.contestBox}>
+                      <div style = {{marginLeft: "30px", marginRight: "30px"}}>
+                        <div style = {{alignItems : "baseline", overflow:"hidden", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
+                          <h3 style = {{color:"#5081E4", float: "left"}}>DMOPC '20 April Contest &nbsp;</h3>
+                          <h5 style = {{color:"#5081E4", float: "left"}}>2021-04-26</h5>
+                        </div>
+                        <br></br>
+
+                        <div style = {{ height: "100px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
+                            <ButtonBase className = {classes.ratingGain}>
+                              <h1 style = {{color: "black"}}>+1260</h1>
+                            </ButtonBase>
+                            <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                              <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
+                                <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h5><h5 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: colorRating}}>1500 </h5>
+                              
+                              </div>
+
+
+                              <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
+                                <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: 78%</h5>
+                              
+                              </div>
+
+                            </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                    <div className = {classes.contestBox}>
+                    
+                    </div>
+                    <div className = {classes.contestBox}>
+                    
+                    </div>
+                    <div className = {classes.contestBox}>
+                    
+                    </div>
+                    <div className = {classes.contestBox}>
+                    
+                    </div>
+
+                  </div>
 
               </div>
           }

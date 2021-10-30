@@ -32,33 +32,43 @@ app.post('/api/user', async (req, res) => {
     for(let i=0;i<profile.object.contests.length;i++){
         var curContest = profile.object.contests[i];
         var obj = {
-            performance : "",
+            performance : 0,
             ratingOld: "",
             rating: "",
+            ratingChange: 0,
             contest: "",
             place: "",
             percentile: 0,
+            date: "",
+            name: "",
         }
 
         if(curContest.performance !== null){
             cnt++;
-            obj.performance = curContest.performance
+            obj.performance = curContest.performance.toFixed(0)
             obj.rating = curContest.rating
             obj.contest = curContest.key
 
             const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`, requestOptions)
-            var contestDetails = (res4.data.data.object.rankings).slice();
+            var contestDetails = res4.data.data.object
+            
+            obj.date = contestDetails.end_time.substring(0,10);
+            obj.name = contestDetails.name;
 
-            for(let j = 0; j<contestDetails.length; j++){
-                var curUser = contestDetails[j];
+            var arr = contestDetails.rankings.slice()
+            
+
+            for(let j = 0; j<arr.length; j++){
+                var curUser = arr[j];
                 if(curUser.user === req.body.name){
                     obj.place = j+1
                     obj.ratingOld = curUser.old_rating
-                    obj.percentile = 100 - (((j+1)/contestDetails.length)*100).toFixed(0)
+                    if(obj.ratingOld===null)obj.ratingOld = 0
+                    obj.percentile = 100 - (((j+1)/arr.length)*100).toFixed(0)
                     break;
                 }
             }
-
+            obj.ratingChange = obj.rating - obj.ratingOld
             profile.contestData.push(obj);
         }
     }

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "row",
         width: "100%",
         height: "10%",
-        backgroundColor: "#3B3B3B",
+        backgroundColor: "#1f2940",
     },
     titleWrap: {
         marginLeft: "10%",
