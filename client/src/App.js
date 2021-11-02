@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "20px",
       fontWeight: "normal",
       float: "left",
+      marginRight: "7px",
     },
     link: {
       textDecoration: "none",
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
     scrollBox: {
       overflowY: "scroll",
-      width: "800px",
+      width: "100%",
       height: "500px",
       
       '&::-webkit-scrollbar' :{
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     },
     
     contestBox: {
-      width: "700px",
+      width: "98%",
       height: "175px",
       borderWidth: "2px",
       borderStyle: "solid",
@@ -163,30 +164,51 @@ const captions = {
         ],
         contestCount: "<(custom attribute) number of rated contests>",
         subCount: "<(custom attribute) total submission count",
+        contestData: [
+            {
+                performance : 0,
+                ratingOld: "",
+                rating: "",
+                ratingChange: 0,
+                contest: "",
+                place: "",
+                percentile: 0,
+                date: "",
+                name: "",
+            }
+    
+        ],
 
     },
   });
   const [colorRating, setColorRating] = useState('');
-
+  const [contestData, setContestData] = useState(['2','2','2']);
   const receiveData = (input) => {
 
     console.log('data received ' + JSON.stringify(input.object.username));
     var rank = input.object.rating
 
-    if(rank === null )setColorRating("#fff");
-    if(rank != null && rank < 1000) setColorRating("#b1c9dc");
-    if(rank >= 1000 && rank < 1300) setColorRating("#46ff46");
-    if(rank >= 1300 && rank < 1600) setColorRating("#5398ff");
-    if(rank >= 1600 && rank < 1900) setColorRating("#ff53ff");
-    if(rank >= 1900 && rank < 2400) setColorRating("#fffc1a");
-    if(rank >= 2400 ) setColorRating("#ff0c0c");
+    setColorRating(handleColorRating(rank))
 
 
     setData(input);
 
+    setContestData(input.object.contestData);
+
+
     setShow(true);   
 
   }
+  function handleColorRating(rank){
+    if(rank === null )return("#fff");
+    if(rank != null && rank < 1000) return("#b1c9dc");
+    if(rank >= 1000 && rank < 1300) return("#46ff46");
+    if(rank >= 1300 && rank < 1600) return("#5398ff");
+    if(rank >= 1600 && rank < 1900) return("#ff53ff");
+    if(rank >= 1900 && rank < 2400) return("#fffc1a");
+    if(rank >= 2400 ) return("#ff0c0c");
+
+  };
   var rating = data.object.rating === null ? "null" : data.object.rating
   var sub = `https://dmoj.ca/submissions/user/${data.object.username}`
 
@@ -207,7 +229,7 @@ const captions = {
 
                   <div>
 
-                    <h3 className = {classes.h3Left} >Elo rating: &nbsp;</h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
+                    <h3 className = {classes.h3Left} >Elo rating: </h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
                     <h3 className = {classes.h3}>Problems solved: {data.object.problem_count}</h3>
                     <h3 className = {classes.h3}>Contests written: {data.object.contestCount}</h3>
                     <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
@@ -266,53 +288,70 @@ const captions = {
 
                   
                   <h1 style={{fontWeight: "normal", fontSize: "23px"}}>Contest History</h1>
-                  <div className = {classes.scrollBox}>
-                    <div className = {classes.contestBox}>
-                      <div style = {{marginLeft: "30px", marginRight: "30px"}}>
-                        <div style = {{alignItems : "baseline", overflow:"hidden", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
-                          <h3 style = {{color:"#5081E4", float: "left"}}>DMOPC '20 April Contest &nbsp;</h3>
-                          <h5 style = {{color:"#5081E4", float: "left"}}>2021-04-26</h5>
-                        </div>
-                        <br></br>
 
-                        <div style = {{ height: "100px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
-                            <ButtonBase className = {classes.ratingGain}>
-                              <h1 style = {{color: "black"}}>+1260</h1>
-                            </ButtonBase>
-                            <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-                              <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h5><h5 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: colorRating}}>1500 </h5>
-                              
-                              </div>
+                  { data.object.contestCount > 0 && 
+                  
+                    <div className = {classes.scrollBox}>
+                    
+                      {contestData.map(obj =>
+                        <div className = {classes.contestBox}>
 
+                          <div style = {{marginLeft: "30px", marginRight: "30px"}}>
 
-                              <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: 78%</h5>
-                              
-                              </div>
-
+                            {/* subtitle box */}
+                            <div style = {{alignItems : "baseline", overflow:"hidden", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
+                              <h3 style = {{color:"#5081E4", float: "left"}}>{obj.name} &nbsp;</h3>
+                              <h5 style = {{color:"#5081E4", float: "left"}}>{obj.date}</h5>
                             </div>
+
+                            <br></br>
+
+                            {/* content */}
+                            <div style = {{ height: "100px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
+                                {
+                                  obj.ratingChange >=0 && 
+                                  <ButtonBase className = {classes.ratingGain}>
+                                    <h1 style = {{color: "black"}}>+{obj.ratingChange}</h1>
+                                  </ButtonBase>
+                                }
+                                {
+                                  obj.ratingChange <0 && 
+                                  <ButtonBase className = {classes.ratingGain} style = {{backgroundColor:"#ed4420"}}>
+                                    <h1 style = {{color: "black"}}>{obj.ratingChange}</h1>
+                                  </ButtonBase>
+                                }            
+                                <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                                  <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
+                                    <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h5><h5 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h5>
+                                  
+                                  </div>
+
+
+                                  <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
+                                    <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h5>
+                                  
+                                  </div>
+
+                                </div>
+                            </div>
+
+                          </div>
+
                         </div>
-
-                      </div>
-                    </div>
-
-
-                    <div className = {classes.contestBox}>
+                        
+                        )
                     
-                    </div>
-                    <div className = {classes.contestBox}>
-                    
-                    </div>
-                    <div className = {classes.contestBox}>
-                    
-                    </div>
-                    <div className = {classes.contestBox}>
-                    
+                    }
                     </div>
 
-                  </div>
+                  
+                  }
+                    
 
+
+
+
+                  
               </div>
           }
           

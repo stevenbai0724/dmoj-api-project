@@ -26,7 +26,7 @@ app.post('/api/user', async (req, res) => {
     var submissions = (res3.data);
     var cnt = 0
 
-    profile.contestData = [];
+    profile.object.contestData = [];
 
     
     for(let i=0;i<profile.object.contests.length;i++){
@@ -69,7 +69,7 @@ app.post('/api/user', async (req, res) => {
                 }
             }
             obj.ratingChange = obj.rating - obj.ratingOld
-            profile.contestData.push(obj);
+            profile.object.contestData.push(obj);
         }
     }
 
