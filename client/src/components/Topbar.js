@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from 'react'
 import { makeStyles} from "@material-ui/core";
 import Search from '../assets/search.png';
+import Logo from '../assets/logo.png';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         flexDirection: "row",
         width: "100%",
-        height: "10%",
+        height: "100px",
         backgroundColor: "#1f2940",
     },
     titleWrap: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         flexDirection: "row",
         width: "27%",
+        height: "100%",
         
     },
     searchWrap: {
@@ -57,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
         height: "50%",
         marginLeft: "10px",
         marginRight: "10px",
+    },
+    logo: {
+        height: "90px",
+
     },
     
 }))
@@ -108,7 +114,8 @@ function App({prop}) {
     return (
         <div className = {classes.bar}>
             <div className = {classes.titleWrap}>
-                <h1 className = {classes.textYellow}>DM</h1><h1 className = {classes.textGray}>OJ</h1><h1 className = {classes.textYellow}>ST</h1><h1 className = {classes.textGray}>ATS</h1>
+                <img className = {classes.logo} src = {Logo} alt = "logo"></img>
+                {/* <h1 className = {classes.textYellow}>DM</h1><h1 className = {classes.textGray}>OJ</h1><h1 className = {classes.textYellow}>ST</h1><h1 className = {classes.textGray}>ATS</h1> */}
             </div>
 
             <div className = {classes.searchWrap}>

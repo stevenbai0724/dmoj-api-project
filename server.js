@@ -41,6 +41,7 @@ app.post('/api/user', async (req, res) => {
             percentile: 0,
             date: "",
             name: "",
+            link: "",
         }
 
         if(curContest.performance !== null){
@@ -60,7 +61,7 @@ app.post('/api/user', async (req, res) => {
 
             for(let j = 0; j<arr.length; j++){
                 var curUser = arr[j];
-                if(curUser.user === req.body.name){
+                if(curUser.user === profile.object.username){
                     obj.place = j+1
                     obj.ratingOld = curUser.old_rating
                     if(obj.ratingOld===null)obj.ratingOld = 0
@@ -68,6 +69,7 @@ app.post('/api/user', async (req, res) => {
                     break;
                 }
             }
+            obj.link = `/${curContest.key}/ranking/#!${profile.object.username}`
             obj.ratingChange = obj.rating - obj.ratingOld
             profile.object.contestData.push(obj);
         }

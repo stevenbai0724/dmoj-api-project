@@ -82,13 +82,14 @@ const useStyles = makeStyles((theme) => ({
     contestBox: {
       width: "98%",
       height: "175px",
-      borderWidth: "2px",
-      borderStyle: "solid",
-      borderColor: "white",
+      borderBottom: "2px solid white",
       backgroundColor: "#1f2940",
       display: "flex",
       flexDirection : "column",
-      
+      '&:hover' : {
+          
+        transform: "scale(1.01)",
+      }
 
     },
 
@@ -98,6 +99,11 @@ const useStyles = makeStyles((theme) => ({
       width: "100px",
       height: "100px",
       marginRight: "30px",
+    },
+
+    link: {
+      textDecoration: "none",
+      color: "none",
     },
 
 }))
@@ -254,7 +260,7 @@ const captions = {
                     {/* title */}
                     {
                       rating === "null" && 
-                      <h2 className = {classes.rank} style={{color:"#b1c9dc"}}>Unrated</h2> 
+                      <h2 className = {classes.rank} style={{color:"white"}}>Unrated</h2> 
                                     
                     }
                     {
@@ -286,14 +292,25 @@ const captions = {
                       <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
                     }              
 
+                  {
+                    data.object.contestCount > 0 &&
+                    <h1 style={{fontWeight: "normal", fontSize: "23px"}}>Contest History</h1>
+                  }
+                  {
+                    data.object.contestCount == 0 && 
+                    <h1 style={{fontWeight: "normal", fontSize: "23px"}}>No contest participation</h1>                
+                  }
                   
-                  <h1 style={{fontWeight: "normal", fontSize: "23px"}}>Contest History</h1>
 
                   { data.object.contestCount > 0 && 
+
+                    
                   
                     <div className = {classes.scrollBox}>
                     
                       {contestData.map(obj =>
+                        
+                        <a className = {classes.link} href = {`https://dmoj.ca/contest${obj.link}`} target = "_blank">
                         <div className = {classes.contestBox}>
 
                           <div style = {{marginLeft: "30px", marginRight: "30px"}}>
@@ -322,13 +339,13 @@ const captions = {
                                 }            
                                 <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                                   <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                    <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h5><h5 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h5>
+                                    <h5 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h5><h5 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h5>
                                   
                                   </div>
 
 
                                   <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                    <h5 style = {{fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h5>
+                                    <h5 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h5>
                                   
                                   </div>
 
@@ -338,6 +355,7 @@ const captions = {
                           </div>
 
                         </div>
+                        </a>
                         
                         )
                     
