@@ -92,7 +92,7 @@ function App({prop}) {
                 sub: `https://dmoj.ca/api/user/submissions/${user}`
 
             }
-
+            //backend server call
             fetch('/api/user', {
                 method: "POST",
                 body: JSON.stringify(postBody),

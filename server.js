@@ -2,13 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const app = express()
 const axios = require('axios')
-
+var cors = require("cors");
 app.use(express.json())
 
-
+app.use(cors());
 app.post('/api/user', async (req, res) => {
 
-    const API_KEY = "";
+    const API_KEY = "AADIywXVen_ihhJ1KmIEyQMF4O0atL5Nh6zrNseUi03lXl0T";
 
     
     const requestOptions = {
@@ -83,6 +83,7 @@ app.post('/api/user', async (req, res) => {
 
 
 })
+app.listen(process.env.PORT || 5000)
 
 
 
