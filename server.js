@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const app = express()
+const path = require('path');
 const axios = require('axios')
 
 
@@ -8,6 +9,9 @@ const PORT = process.env.PORT || 5000;
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(express.json())
 app.get('/api', (req, res) => {    res.json({message : "Hello from express server"})});
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
 app.post('/api/user', async (req, res) => {
 
     const API_KEY = "AADIywXVen_ihhJ1KmIEyQMF4O0atL5Nh6zrNseUi03lXl0T";
