@@ -15,7 +15,7 @@ app.get('*', function (req, res) {
 });
 app.post('/api/user', async (req, res) => {
 
-    const API_KEY = "AADIywXVen_ihhJ1KmIEyQMF4O0atL5Nh6zrNseUi03lXl0T";
+    const API_KEY = "";
 
     
     const requestOptions = {
