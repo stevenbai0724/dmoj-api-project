@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect, useRef, React} from 'react'
 import { makeStyles} from "@material-ui/core";
 import Search from '../assets/search.png';
 import Logo from '../assets/logo.png';
@@ -70,6 +70,7 @@ function App({prop}) {
     const [user, setUser] = useState('');
     const [step, setStep] = useState(1);
     const [obj, setObj] = useState(null);
+    const [data, setData] = useState(null);
 
     const search = evt => {
         if(evt.key === "Enter"){
@@ -105,6 +106,9 @@ function App({prop}) {
         }
         else {
             isMounted.current = true;
+            fetch('/api')
+                .then((res) => res.json())
+                .then((data) => setData(data.message));
         }
     }, [step])
         
@@ -131,8 +135,10 @@ function App({prop}) {
 
             >
             </input>
+            
 
             </div>
+           
             
         </div>
   );

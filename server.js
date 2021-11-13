@@ -2,10 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const app = express()
 const axios = require('axios')
-var cors = require("cors");
-app.use(express.json())
 
-app.use(cors());
+
+const PORT = process.env.PORT || 5000;
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.json())
+app.get('/api', (req, res) => {    res.json({message : "Hello from express server"})});
 app.post('/api/user', async (req, res) => {
 
     const API_KEY = "AADIywXVen_ihhJ1KmIEyQMF4O0atL5Nh6zrNseUi03lXl0T";
@@ -83,10 +85,6 @@ app.post('/api/user', async (req, res) => {
 
 
 })
-app.listen(process.env.PORT || 5000)
-
-
-
-const port = 5000;
-
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(PORT, () => {
+    console.log(`Server listening on ${PORT}`);
+  });
