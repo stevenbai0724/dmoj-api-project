@@ -5,7 +5,7 @@ const axios = require('axios')
 
 
 const PORT = process.env.PORT || 5000;
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, 'client/build')));
 
 app.get('/api', (req, res) => {    res.json({message : "Hello from express server"})});
 app.get('*', function (req, res) {
