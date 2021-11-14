@@ -106,9 +106,7 @@ function App({prop}) {
         }
         else {
             isMounted.current = true;
-            fetch('/api')
-                .then((res) => res.json())
-                .then((data) => setData(data.message));
+
         }
     }, [step])
         

@@ -6,7 +6,7 @@ const axios = require('axios')
 
 const PORT = process.env.PORT || 5000;
 app.use(express.static(path.resolve(__dirname, 'client/build')));
-
+app.use(express.json());
 app.get('/api', (req, res) => {    res.json({message : "Hello from express server"})});
 app.get('*', function (req, res) {
     const index = path.join(__dirname, 'build', 'index.html');
@@ -15,7 +15,7 @@ app.get('*', function (req, res) {
 });
 app.post('/api/user', async (req, res) => {
 
-    const API_KEY = "AADIy5z0JQQYkAb4-QHhXBVhXBM4fZIfX2e1iyhX-zuCn_GJ";
+    const API_KEY = "AADIy0I7Yoj6a0KwDcBzE1eSnARFKEvX9wZJU6_XjJIwwiyZ";
 
     
     const requestOptions = {
