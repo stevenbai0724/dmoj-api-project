@@ -1,5 +1,7 @@
 # Dmoj user profile webapp 
 
+<a href = "https://dmojstats.herokuapp.com/" target = "_blank"> dmojstats </a>
+
 A full stack web application that displays a dmoj user profile from the <a href = "https://docs.dmoj.ca/#/site/api" target = "_blank">DMOJ API </a>.
 
 # Current Features:
@@ -24,5 +26,4 @@ A full stack web application that displays a dmoj user profile from the <a href 
 
 # In progress features:
 - Plot problem type on a radar chart  
-- Deploy to heroku  
 - Use a database of problems, users and organizations  
