@@ -74,7 +74,6 @@ function App({prop}) {
 
     const search = evt => {
         if(evt.key === "Enter"){
-            console.log('user: ' + user)
             setStep(step+1)
             
         }
@@ -85,8 +84,6 @@ function App({prop}) {
     useEffect (() => {
 
         if(isMounted.current){
-            console.log("re-render")
-
             const postBody = {
                 name: `${user}`,
                 user: `https://dmoj.ca/api/v2/user/${user}`,
@@ -100,7 +97,7 @@ function App({prop}) {
                 headers: { 'Content-Type': 'application/json'}
             }).then(res => res.json())
                 .then(data => {
-                    console.log(data);
+
                     prop(data)
                 })
         }

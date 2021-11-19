@@ -191,7 +191,6 @@ const captions = {
   const [contestData, setContestData] = useState(['2','2','2']);
   const receiveData = (input) => {
 
-    console.log('data received ' + JSON.stringify(input.object.username));
     var rank = input.object.rating
 
     setColorRating(handleColorRating(rank))
@@ -230,7 +229,7 @@ const captions = {
           {
             show === true && 
             <div className = {classes.leftContainer}>
-                <ButtonBase className = {classes.btnbase}><img src = {DMOJ} alt = "DMOJ" className = {classes.img}></img></ButtonBase>
+                <ButtonBase className = {classes.btnbase}><a href = {`https://dmoj.ca/user/${data.object.username}`} target = "_blank"><img src = {DMOJ} alt = "DMOJ" className = {classes.img}></img></a></ButtonBase>
 
 
                   <div>
