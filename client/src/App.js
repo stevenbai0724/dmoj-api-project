@@ -71,16 +71,24 @@ const useStyles = makeStyles((theme) => ({
     scrollBox: {
       overflowY: "scroll",
       width: "100%",
-      height: "500px",
+      height: "720px",
       
       '&::-webkit-scrollbar' :{
-        display: "none",
+        width: '20px',
+        color: "red",
+      },
+      '&::-webkit-scrollbar-thumb' :{
+        backgroundColor: "#1f2940",
+        borderRadius: "7px",
+      },
+      '&::-webkit-scrollbar-track' :{
+        borderRadius: "4px",
       },
 
     },
     
     contestBox: {
-      width: "98%",
+      width: "99%",
       height: "175px",
       borderBottom: "2px solid white",
       backgroundColor: "#1f2940",
@@ -111,38 +119,7 @@ function App() {
   const classes = useStyles();
 
   const [show, setShow] = useState(false);
-  const defaultOptions = {
-    axes: true,
-    captions: true,
-    dots: true,
-    scales: 3, 
-  }
-  const radar = [
-    {
-      data: {
-        adhoc: .65,
-        graph: .9,
-        dp: .7,
-        string: .4,
-        math: .7,
-        greedy: .5,
-        data: .6,
-      },
-      meta: { color: 'blue' }
-    },
-
-  ];
-
-const captions = {
-    // columns
-    adhoc: 'Ad Hoc',
-    graph: 'Graph Theory',
-    dp: 'DP',
-    string: 'String Algorithms',
-    math: 'Math',
-    greedy: 'Greedy ',
-    data: 'Data Structures',
-  };
+  
   const [data, setData] = useState({
     object : {
         id: "<user id>",
@@ -315,15 +292,15 @@ const captions = {
                           <div style = {{marginLeft: "30px", marginRight: "30px"}}>
 
                             {/* subtitle box */}
-                            <div style = {{alignItems : "baseline", overflow:"hidden", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
-                              <h3 style = {{color:"#5081E4", float: "left"}}>{obj.name} &nbsp;</h3>
+                            <div style = {{alignItems : "baseline", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
+                              <h4 style = {{color:"#5081E4", float: "left"}}>{obj.name} &nbsp;</h4>
                               <h5 style = {{color:"#5081E4", float: "left"}}>{obj.date}</h5>
                             </div>
 
                             <br></br>
 
                             {/* content */}
-                            <div style = {{ height: "100px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
+                            <div style = {{ height: "90px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
                                 {
                                   obj.ratingChange >=0 && 
                                   <ButtonBase className = {classes.ratingGain}>
@@ -338,13 +315,13 @@ const captions = {
                                 }            
                                 <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                                   <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                    <h5 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h5><h5 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h5>
+                                    <h6 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h6><h6 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h6>
                                   
                                   </div>
 
 
                                   <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                    <h5 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h5>
+                                    <h6 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h6>
                                   
                                   </div>
 
@@ -358,7 +335,9 @@ const captions = {
                         
                         )
                     
-                    }
+                      }
+
+                      
                     </div>
 
                   
