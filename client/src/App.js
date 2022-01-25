@@ -211,7 +211,7 @@ function App() {
 
                   <div>
 
-                    <h3 className = {classes.h3Left} >Elo rating: </h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
+                    <h3 className = {classes.h3Left} >Contest rating: </h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
                     <h3 className = {classes.h3}>Problems solved: {data.object.problem_count}</h3>
                     <h3 className = {classes.h3}>Contests written: {data.object.contestCount}</h3>
                     <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
