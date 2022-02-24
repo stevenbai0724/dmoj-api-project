@@ -3,8 +3,10 @@ const express = require('express')
 const app = express()
 const path = require('path');
 const axios = require('axios')
-require('dotenv').config()
+//don't congif() here for deployment 
 const PORT = process.env.PORT || 5000;
+
+//deployment stuff
 app.use(express.static(path.resolve(__dirname, 'client/build')));
 app.use(express.json());
 app.get('/api', (req, res) => {    res.json({message : "Hello from express server"})});
@@ -13,6 +15,7 @@ app.get('*', function (req, res) {
     res.sendFile(index);
 
 });
+
 app.post('/api/user', async (req, res) => {
 
     const API_KEY = process.env.API_KEY;
