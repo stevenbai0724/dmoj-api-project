@@ -1,8 +1,9 @@
+//heroku
 const express = require('express')
 const app = express()
 const path = require('path');
 const axios = require('axios')
-
+require('dotenv').config()
 const PORT = process.env.PORT || 5000;
 app.use(express.static(path.resolve(__dirname, 'client/build')));
 app.use(express.json());
@@ -14,7 +15,7 @@ app.get('*', function (req, res) {
 });
 app.post('/api/user', async (req, res) => {
 
-    const API_KEY = process.env.KEY;
+    const API_KEY = process.env.API_KEY;
 
     
     const requestOptions = {
