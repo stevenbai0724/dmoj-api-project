@@ -1,5 +1,6 @@
 import './App.css';
 import Topbar from './components/Topbar'
+import Footer from './components/Footer'
 import { makeStyles, ButtonBase, Button} from "@material-ui/core";
 import DMOJ from './assets/dmoj.png';
 import {useState, useEffect, useRef} from 'react'
@@ -8,6 +9,11 @@ import RadarChart from 'react-svg-radar-chart';
 import './Radar.css';
 const useStyles = makeStyles((theme) => ({
 
+    page:{
+      display: "flex",
+      flexDirection: "column",
+      backgroundColor: "#141b2d",
+    },
     leftContainer: {
       marginLeft: "10%",
       display: "flex",
@@ -196,166 +202,168 @@ function App() {
 
   return (
     
-    <div>
+
+      <div className = {classes.page}>
       
-      <Topbar prop = {receiveData} />
-      <div className = "App-header">
-        <br></br>
-        <div className = {classes.contentBox}>
+        <Topbar prop = {receiveData} />
+        <div className = "App-header">
+          <br></br>
+          <div className = {classes.contentBox}>
 
-          {
-            show === true && 
-            <div className = {classes.leftContainer}>
-                <ButtonBase className = {classes.btnbase}><a href = {`https://dmoj.ca/user/${data.object.username}`} target = "_blank"><img src = {DMOJ} alt = "DMOJ" className = {classes.img}></img></a></ButtonBase>
+            {
+              show === true && 
+              <div className = {classes.leftContainer}>
+                  <ButtonBase className = {classes.btnbase}><a href = {`https://dmoj.ca/user/${data.object.username}`} target = "_blank"><img src = {DMOJ} alt = "DMOJ" className = {classes.img}></img></a></ButtonBase>
 
 
-                  <div>
+                    <div>
 
-                    <h3 className = {classes.h3Left} >Contest rating: </h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
-                    <h3 className = {classes.h3}>Problems solved: {data.object.problem_count}</h3>
-                    <h3 className = {classes.h3}>Contests written: {data.object.contestCount}</h3>
-                    <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
-                    <h3 className = {classes.h3}>Adjusted Points: {data.object.performance_points.toFixed(0)} </h3>
-                    <h3 className = {classes.h3}>Total submissions: {data.object.subCount}</h3>
-                    <a href = {sub} target="_blank" className = {classes.link}><h3 className = {classes.h3} style={{color:"#889BCB"}}>View submissions</h3></a>
+                      <h3 className = {classes.h3Left} >Contest Rating: </h3> <h3 className = {classes.h3Left} style={{color: colorRating, fontWeight: "bold"}}>{rating}</h3> 
+                      <h3 className = {classes.h3}>Problems Solved: {data.object.problem_count}</h3>
+                      <h3 className = {classes.h3}>Contests Written: {data.object.contestCount}</h3>
+                      <h3 className = {classes.h3}>Total Points: {data.object.points.toFixed(0)}</h3>
+                      <h3 className = {classes.h3}>Adjusted Points: {data.object.performance_points.toFixed(0)} </h3>
+                      <h3 className = {classes.h3}>Total Submissions: {data.object.subCount}</h3>
+                      <a href = {sub} target="_blank" className = {classes.link}><h3 className = {classes.h3} style={{color:"#889BCB"}}>View submissions</h3></a>
 
-                  </div>
-                
+                    </div>
+                  
 
-            </div>
-          
-          }
+              </div>
+            
+            }
 
-          {
-              show === true &&
+            {
+                show === true &&
 
-              <div className = {classes.rightContainer}>
+                <div className = {classes.rightContainer}>
 
-                    <h1 style={{fontWeight: "bold"}} className = {classes.h1}>{data.object.username}</h1>
+                      <h1 style={{fontWeight: "bold"}} className = {classes.h1}>{data.object.username}</h1>
 
-                    {/* title */}
+                      {/* title */}
+                      {
+                        rating === "null" && 
+                        <h2 className = {classes.rank} style={{color:"white"}}>Unrated</h2> 
+                                      
+                      }
+                      {
+                        rating <1000 && rating != "null" && 
+                        <h2 className = {classes.rank} style={{color:"#b1c9dc"}}>Newbie</h2>
+                      }
+                      {
+                        rating >=1000 && rating <1300 &&
+                        <h2 className = {classes.rank} style={{color:"#46ff46"}}>Amateur</h2>
+                      }   
+                      {
+                        rating >=1300 && rating <1600 &&
+                        <h2 className = {classes.rank} style={{color:"#5398ff"}}>Expert</h2>
+                      }              
+                      {
+                        rating >=1600 && rating <1900 &&
+                        <h2 className = {classes.rank} style={{color:"#ff53ff"}}>Candidate Master</h2>
+                      }              
+                      {
+                        rating >=1900 && rating <2399 &&
+                        <h2 className = {classes.rank} style={{color:"#fffc1a"}}>Master</h2>
+                      }            
+                      {
+                        rating >=2400 && rating <3000 &&
+                        <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Grandmaster</h2>
+                      }                           
+                      {
+                        rating >=3000 &&
+                        <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
+                      }              
+
                     {
-                      rating === "null" && 
-                      <h2 className = {classes.rank} style={{color:"white"}}>Unrated</h2> 
+                      data.object.contestCount > 0 &&
+                      <h1 style={{fontWeight: "normal", fontSize: "23px", color: "white"}}>Contest History</h1>
+                    }
+                    {
+                      data.object.contestCount == 0 && 
+                      <h1 style={{fontWeight: "normal", fontSize: "23px"}}>No contest participation</h1>                
+                    }
+                    
+
+                    { data.object.contestCount > 0 && 
+
+                      
+                    
+                      <div className = {classes.scrollBox}>
+                      
+                        {contestData.map(obj =>
+                          
+                          <a className = {classes.link} href = {`https://dmoj.ca/contest${obj.link}`} target = "_blank">
+                          <div className = {classes.contestBox}>
+
+                            <div style = {{marginLeft: "30px", marginRight: "30px"}}>
+
+                              {/* subtitle box */}
+                              <div style = {{alignItems : "baseline", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
+                                <h4 style = {{color:"#5081E4", float: "left"}}>{obj.name} &nbsp;</h4>
+                                <h5 style = {{color:"#5081E4", float: "left"}}>{obj.date}</h5>
+                              </div>
+
+                              <br></br>
+
+                              {/* content */}
+                              <div style = {{ height: "90px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
+                                  {
+                                    obj.ratingChange >=0 && 
+                                    <ButtonBase className = {classes.ratingGain}>
+                                      <h1 style = {{color: "black"}}>+{obj.ratingChange}</h1>
+                                    </ButtonBase>
+                                  }
+                                  {
+                                    obj.ratingChange <0 && 
+                                    <ButtonBase className = {classes.ratingGain} style = {{backgroundColor:"#ed4420"}}>
+                                      <h1 style = {{color: "black"}}>{obj.ratingChange}</h1>
+                                    </ButtonBase>
+                                  }            
+                                  <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                                    <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
+                                      <h6 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h6><h6 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h6>
                                     
-                    }
-                    {
-                      rating <1000 && rating != "null" && 
-                      <h2 className = {classes.rank} style={{color:"#b1c9dc"}}>Newbie</h2>
-                    }
-                    {
-                      rating >=1000 && rating <1300 &&
-                      <h2 className = {classes.rank} style={{color:"#46ff46"}}>Amateur</h2>
-                    }   
-                    {
-                      rating >=1300 && rating <1600 &&
-                      <h2 className = {classes.rank} style={{color:"#5398ff"}}>Expert</h2>
-                    }              
-                    {
-                      rating >=1600 && rating <1900 &&
-                      <h2 className = {classes.rank} style={{color:"#ff53ff"}}>Candidate Master</h2>
-                    }              
-                    {
-                      rating >=1900 && rating <2399 &&
-                      <h2 className = {classes.rank} style={{color:"#fffc1a"}}>Master</h2>
-                    }            
-                    {
-                      rating >=2400 && rating <3000 &&
-                      <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Grandmaster</h2>
-                    }                           
-                    {
-                      rating >=3000 &&
-                      <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
-                    }              
+                                    </div>
 
-                  {
-                    data.object.contestCount > 0 &&
-                    <h1 style={{fontWeight: "normal", fontSize: "23px"}}>Contest History</h1>
-                  }
-                  {
-                    data.object.contestCount == 0 && 
-                    <h1 style={{fontWeight: "normal", fontSize: "23px"}}>No contest participation</h1>                
-                  }
-                  
 
-                  { data.object.contestCount > 0 && 
+                                    <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
+                                      <h6 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h6>
+                                    
+                                    </div>
 
-                    
-                  
-                    <div className = {classes.scrollBox}>
-                    
-                      {contestData.map(obj =>
-                        
-                        <a className = {classes.link} href = {`https://dmoj.ca/contest${obj.link}`} target = "_blank">
-                        <div className = {classes.contestBox}>
-
-                          <div style = {{marginLeft: "30px", marginRight: "30px"}}>
-
-                            {/* subtitle box */}
-                            <div style = {{alignItems : "baseline", display:"flex", height:"70px", width: "100%", marginTop: "-20px"}}>
-                              <h4 style = {{color:"#5081E4", float: "left"}}>{obj.name} &nbsp;</h4>
-                              <h5 style = {{color:"#5081E4", float: "left"}}>{obj.date}</h5>
-                            </div>
-
-                            <br></br>
-
-                            {/* content */}
-                            <div style = {{ height: "90px", width: "100%", marginTop: "-25px", display: "flex", flexDirection: "row"}}>
-                                {
-                                  obj.ratingChange >=0 && 
-                                  <ButtonBase className = {classes.ratingGain}>
-                                    <h1 style = {{color: "black"}}>+{obj.ratingChange}</h1>
-                                  </ButtonBase>
-                                }
-                                {
-                                  obj.ratingChange <0 && 
-                                  <ButtonBase className = {classes.ratingGain} style = {{backgroundColor:"#ed4420"}}>
-                                    <h1 style = {{color: "black"}}>{obj.ratingChange}</h1>
-                                  </ButtonBase>
-                                }            
-                                <div style = {{height: "100px", width: "350px", marginTop: "-2px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-                                  <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                    <h6 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Performance: </h6><h6 style = {{fontWeight: "bold",marginLeft:"5px", float: "left", color: handleColorRating(obj.performance) }}>{obj.performance} </h6>
-                                  
                                   </div>
+                              </div>
 
-
-                                  <div style = {{backgroundColor: "#165172", borderRadius: 10, height: "47px", display: "flex", alignItems: "center"}}> 
-                                    <h6 style = {{color: "white", fontWeight: "normal", float: "left", marginLeft: "10px"}}>Percentile: {obj.percentile}%</h6>
-                                  
-                                  </div>
-
-                                </div>
                             </div>
 
                           </div>
-
-                        </div>
-                        </a>
-                        
-                        )
-                    
-                      }
-
+                          </a>
+                          
+                          )
                       
-                    </div>
+                        }
 
-                  
-                  }
+                        
+                      </div>
+
                     
+                    }
+                      
 
 
 
 
-                  
-              </div>
-          }
-          
+                    
+                </div>
+            }
+            
+          </div>
         </div>
-      </div>
-        
 
-    </div>
+        <Footer />
+      </div>
+      
   );
 }
 

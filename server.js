@@ -4,6 +4,7 @@ const app = express()
 const path = require('path');
 const axios = require('axios')
 //don't congif() here for deployment 
+// require('dotenv').config()
 const PORT = process.env.PORT || 5000;
 
 //deployment stuff
