@@ -35,7 +35,7 @@ function Footer() {
                 <ButtonBase><a href = "https://stevenbai.ca/" target = "_blank"><BiLinkExternal className = {classes.icon} /></a></ButtonBase>
 
             </div>
-            <h3 style = {{color: "white"}}>&copy; Steven Bai 2022</h3>
+            <h4 style = {{color: "white"}}>&copy; 2021-2022 Steven Bai</h4>
 
         </div>
   );

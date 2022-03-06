@@ -5,7 +5,6 @@ import { makeStyles, ButtonBase, Button} from "@material-ui/core";
 import DMOJ from './assets/dmoj.png';
 import {useState, useEffect, useRef} from 'react'
 import React from 'react'
-import RadarChart from 'react-svg-radar-chart';
 import './Radar.css';
 const useStyles = makeStyles((theme) => ({
 
