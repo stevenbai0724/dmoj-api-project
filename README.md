@@ -28,3 +28,4 @@ A full stack web application that displays a dmoj user profile from the <a href 
 # In progress features:
 - Plot problem type on a radar chart  
 - Use a database of problems, users and organizations  
+- Error handleing for search
