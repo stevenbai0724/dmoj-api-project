@@ -2,7 +2,7 @@ import {useState, useEffect, useRef, React} from 'react'
 import { makeStyles} from "@material-ui/core";
 import Search from '../assets/search.png';
 import Logo from '../assets/logo.png';
-
+import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
 
     textYellow: {
@@ -69,17 +69,15 @@ const useStyles = makeStyles((theme) => ({
 function App({prop}) {
     const [user, setUser] = useState('');
     const [step, setStep] = useState(1);
-    const [obj, setObj] = useState(null);
-    const [data, setData] = useState(null);
 
     const search = evt => {
         if(evt.key === "Enter"){
-            setStep(step+1)
-            
+            setStep(step+1) //state changed to re-render the api call
         }
     }
     const classes = useStyles();
 
+    //stops useEffect from running on first render
     const isMounted = useRef(false);
     useEffect (() => {
 
@@ -88,18 +86,18 @@ function App({prop}) {
                 name: `${user}`,
                 user: `https://dmoj.ca/api/v2/user/${user}`,
                 sub: `https://dmoj.ca/api/user/submissions/${user}`
-
             }
-            //backend server call
-            fetch('/api/user', {
-                method: "POST",
-                body: JSON.stringify(postBody),
-                headers: { 'Content-Type': 'application/json'}
-            }).then(res => res.json())
-                .then(data => {
 
-                    prop(data)
-                })
+            async function fetchData(){
+                const req = await axios.post('/api/user', postBody, {
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                })   
+
+                prop(req.data)
+            }
+            fetchData();
         }
         else {
             isMounted.current = true;
@@ -107,7 +105,6 @@ function App({prop}) {
         }
     }, [step])
         
-
 
 
     return (
