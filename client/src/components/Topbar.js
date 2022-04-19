@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     },
     
 }))
-function App({prop}) {
+function App({sendstuff}) {
     const [user, setUser] = useState('');
     const [step, setStep] = useState(1);
 
@@ -95,7 +95,7 @@ function App({prop}) {
                     }
                 })   
 
-                prop(req.data)
+                sendstuff(req.data) //send data to app.js as a prop
             }
             fetchData();
         }

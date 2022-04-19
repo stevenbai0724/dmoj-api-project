@@ -204,7 +204,7 @@ function App() {
 
       <div className = {classes.page}>
       
-        <Topbar prop = {receiveData} />
+        <Topbar sendstuff = {receiveData} />
         <div className = "App-header">
           <br></br>
           <div className = {classes.contentBox}>

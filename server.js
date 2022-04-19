@@ -4,7 +4,7 @@ const app = express()
 const path = require('path');
 const axios = require('axios')
 //don't congif() here for deployment, only for dev testing
-//require('dotenv').config()
+require('dotenv').config()
 const PORT = process.env.PORT || 5000;
 
 //deployment stuff
@@ -54,7 +54,7 @@ app.post('/api/user', async (req, res) => {
             name: "",
             link: "",
         }
-
+        //append rated contests only
         if(curContest.performance !== null){
             cnt++;
             obj.performance = curContest.performance.toFixed(0)
@@ -69,7 +69,7 @@ app.post('/api/user', async (req, res) => {
 
             var arr = contestDetails.rankings.slice()
             
-
+            //finding place of user to calculate percentile
             for(let j = 0; j<arr.length; j++){
                 var curUser = arr[j];
                 if(curUser.user === profile.object.username){
