@@ -4,6 +4,8 @@
 
 A full stack web application that displays a dmoj user profile from the <a href = "https://docs.dmoj.ca/#/site/api" target = "_blank">DMOJ API </a>.
 
+Update 2022-05-18: Website is currently down
+
 # Current Features:
 - Search bar for user  
 - User title in colour (master, grandmaster, etc)  
