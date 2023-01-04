@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "24px",
       marginTop: "-20px",
       fontWeight: "normal",
+      marginBottom: "0px",
     },
 
     h3: {
@@ -127,6 +128,7 @@ function App() {
   
   const [data, setData] = useState({
     object : {
+        valid: false,
         id: "<user id>",
         username: "<user username>",
         points: "<user points>",
@@ -187,15 +189,24 @@ function App() {
 
   }
   function handleColorRating(rank){
-    if(rank === null )return("#fff");
-    if(rank != null && rank < 1000) return("#b1c9dc");
+    if(rank === "null" )return("#fff");
+    if(rank != "null" && rank < 1000) return("#b1c9dc");
     if(rank >= 1000 && rank < 1300) return("#46ff46");
     if(rank >= 1300 && rank < 1600) return("#5398ff");
     if(rank >= 1600 && rank < 1900) return("#ff53ff");
     if(rank >= 1900 && rank < 2400) return("#fffc1a");
     if(rank >= 2400 ) return("#ff0c0c");
-
   };
+  function handleRank(rating){
+    if(rating === "null")return("Unrated");
+    if(rating != "null" && rating < 1000) return("Newbie");
+    if(rating >= 1000 && rating < 1300) return("Amateur");
+    if(rating >= 1300 && rating < 1600) return("Expert");
+    if(rating >= 1600 && rating < 1900) return("Candidate Master");
+    if(rating >= 1900 && rating < 2400) return("Master");
+    if(rating >= 2400 && rating < 2999) return("Grandmaster");
+    if(rating >= 3000) return ("Legendary Grandmaster");
+  }
   var rating = data.object.rating === null ? "null" : data.object.rating
   var sub = `https://dmoj.ca/submissions/user/${data.object.username}`
 
@@ -233,54 +244,39 @@ function App() {
             }
 
             {
-                show === true &&
+              show && !data.object.valid && 
+              <h2 className = {classes.rank} style={{color: "white"}}>{data.object.username}</h2>
+            }
+
+            {
+                show === true && data.object.valid &&
 
                 <div className = {classes.rightContainer}>
 
                       <h1 style={{fontWeight: "bold"}} className = {classes.h1}>{data.object.username}</h1>
 
                       {/* title */}
-                      {
-                        rating === "null" && 
-                        <h2 className = {classes.rank} style={{color:"white"}}>Unrated</h2> 
-                                      
-                      }
-                      {
-                        rating <1000 && rating != "null" && 
-                        <h2 className = {classes.rank} style={{color:"#b1c9dc"}}>Newbie</h2>
-                      }
-                      {
-                        rating >=1000 && rating <1300 &&
-                        <h2 className = {classes.rank} style={{color:"#46ff46"}}>Amateur</h2>
-                      }   
-                      {
-                        rating >=1300 && rating <1600 &&
-                        <h2 className = {classes.rank} style={{color:"#5398ff"}}>Expert</h2>
-                      }              
-                      {
-                        rating >=1600 && rating <1900 &&
-                        <h2 className = {classes.rank} style={{color:"#ff53ff"}}>Candidate Master</h2>
-                      }              
-                      {
-                        rating >=1900 && rating <2399 &&
-                        <h2 className = {classes.rank} style={{color:"#fffc1a"}}>Master</h2>
-                      }            
-                      {
-                        rating >=2400 && rating <3000 &&
-                        <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Grandmaster</h2>
-                      }                           
-                      {
-                        rating >=3000 &&
-                        <h2 className = {classes.rank} style={{color:"#ff0c0c"}}>Legendary Grandmaster</h2>
-                      }              
+  
+                        <h2 className = {classes.rank} style={{color: handleColorRating(rating)}}>
+                          {handleRank(rating)}
+                        </h2> 
+                    
+                      <hr  style={{
+                         width: "100%",
+                          color: 'white',
+                          backgroundColor: 'white',
+                          height: .5,
+                          borderColor : 'white',
+                          borderRadius: "20px",
+                      }}/>
 
                     {
                       data.object.contestCount > 0 &&
-                      <h1 style={{fontWeight: "normal", fontSize: "23px", color: "white"}}>Contest History</h1>
+                      <h1 style={{fontWeight: "normal", fontSize: "25px", color: "white"}}>Contest History</h1>
                     }
                     {
                       data.object.contestCount == 0 && 
-                      <h1 style={{fontWeight: "normal", fontSize: "23px"}}>No contest participation</h1>                
+                      <h1 style={{fontWeight: "normal", fontSize: "25px", color: "white"}}>No contest participation</h1>                
                     }
                     
 

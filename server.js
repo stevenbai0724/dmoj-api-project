@@ -4,7 +4,7 @@ const app = express()
 const path = require('path');
 const axios = require('axios')
 //don't congif() here for deployment, only for dev testing
-//require('dotenv').config()
+require('dotenv').config()
 const PORT = process.env.PORT || 5000;
 
 //deployment stuff
@@ -21,75 +21,125 @@ app.post('/api/user', async (req, res) => {
 
     const API_KEY = process.env.API_KEY;
 
-    
+    // authentication header
     const requestOptions = {
         headers: { 
             Authorization: `Bearer ${API_KEY}`
         },
     }
+    try{
+        const res2 = await axios.get(req.body.user, requestOptions) //user profile
+        const res3 = await axios.get(req.body.sub, requestOptions) //user subumissions
 
-    const res2 = await axios.get(req.body.user, requestOptions) //user profile
-    const res3 = await axios.get(req.body.sub, requestOptions) //user subumissions
+        //from this point, the user is valid
+        var profile = (res2.data.data); // object for id, username, etc
+        var submissions = (res3.data); // array of all submissions
+        var cnt = 0;
 
 
+        profile.object.contestData = []; //extra field for contest participations and respective performance, +- rating, etc
+        profile.object.valid = true;
 
-    var profile = (res2.data.data);
-    var submissions = (res3.data);
-    var cnt = 0
-
-    profile.object.contestData = [];
-
-    
-    for(let i=0;i<profile.object.contests.length;i++){
-        var curContest = profile.object.contests[i];
-        var obj = {
-            performance : 0,
-            ratingOld: "",
-            rating: "",
-            ratingChange: 0,
-            contest: "",
-            place: "",
-            percentile: 0,
-            date: "",
-            name: "",
-            link: "",
-        }
-        //append rated contests only
-        if(curContest.performance !== null){
-            cnt++;
-            obj.performance = curContest.performance.toFixed(0)
-            obj.rating = curContest.rating
-            obj.contest = curContest.key
-
-            const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`, requestOptions)
-            var contestDetails = res4.data.data.object
-            
-            obj.date = contestDetails.end_time.substring(0,10);
-            obj.name = contestDetails.name;
-
-            var arr = contestDetails.rankings.slice()
-            
-            //finding place of user to calculate percentile
-            for(let j = 0; j<arr.length; j++){
-                var curUser = arr[j];
-                if(curUser.user === profile.object.username){
-                    obj.place = j+1
-                    obj.ratingOld = curUser.old_rating
-                    if(obj.ratingOld===null)obj.ratingOld = 0
-                    obj.percentile = 100 - (((j+1)/arr.length)*100).toFixed(0)
-                    break;
-                }
+        // loop through all the user's contest participations inside the profile.object.contests array
+        for(let i=0;i<profile.object.contests.length;i++){
+            var curContest = profile.object.contests[i];
+            var obj = {
+                performance : 0,
+                ratingOld: "",
+                rating: "",
+                ratingChange: 0,
+                contest: "",
+                place: "",
+                percentile: 0,
+                date: "",
+                name: "",
+                link: "",
             }
-            obj.link = `/${curContest.key}/ranking/#!${profile.object.username}`
-            obj.ratingChange = obj.rating - obj.ratingOld
-            profile.object.contestData.push(obj);
+            //append rated contests only
+            if(curContest.performance !== null){
+                cnt++;
+                obj.performance = curContest.performance.toFixed(0) //floor
+                obj.rating = curContest.rating
+                obj.contest = curContest.key
+
+                const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`, requestOptions) // contest details of the current contest
+
+                var contestDetails = res4.data.data.object
+                
+                obj.date = contestDetails.end_time.substring(0,10);
+                obj.name = contestDetails.name;
+
+                var arr = contestDetails.rankings.slice(); //list of users in order of ranking in the contest
+                
+                //finding place of user to calculate percentile
+                for(let j = 0; j<arr.length; j++){
+                    var curUser = arr[j];
+                    if(curUser.user === profile.object.username){
+                        obj.place = j+1
+                        obj.ratingOld = curUser.old_rating
+                        if(obj.ratingOld===null)obj.ratingOld = 0
+                        obj.percentile = 100 - (((j+1)/arr.length)*100).toFixed(0)
+                        break;
+                    }
+                }
+                obj.link = `/${curContest.key}/ranking/#!${profile.object.username}`
+                obj.ratingChange = obj.rating - obj.ratingOld
+                profile.object.contestData.push(obj);
+            }
         }
+
+        profile.object.contestCount = cnt.toString();
+        profile.object.subCount = Object.keys(submissions).length
+
+        console.log(profile);
+        res.json(profile)
+    }
+    catch(err){
+        var obj_error = {object : {
+            valid: false,
+            id: "null",
+            username: `${req.body.name} is not a valid user`,
+            points: 0,
+            performance_points: 0,
+            problem_count: 0,
+            solved_problems: [
+                "<list of problem code>"
+            ],
+            rank: "<user display rank>",
+            rating: null,
+            organizations: [
+                "<list of organization id>"
+            ],
+            contests: [
+            ],
+            contestCount: 0,
+            subCount: 0,
+            contestData: [
+                {
+                    performance : 0,
+                    ratingOld: "",
+                    rating: "",
+                    ratingChange: 0,
+                    contest: "",
+                    place: "",
+                    percentile: 0,
+                    date: "",
+                    name: "",
+                }
+        
+            ],
+    
+        }}
+        console.log("user does not exist");
+
+
+        res.json(obj_error)
     }
 
-    profile.object.contestCount = cnt.toString();
-    profile.object.subCount = Object.keys(submissions).length
 
-    res.json(profile)
+    
+
+    
     
 
 
