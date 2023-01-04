@@ -4,11 +4,15 @@
 
 A full stack web application that displays a dmoj user profile from the <a href = "https://docs.dmoj.ca/#/site/api" target = "_blank">DMOJ API </a>.
 
+.env file: 
+API_KEY= (your dmoj token)
+PORT=5000
+
 
 # Current Features:
 - Search bar for user  
 - User title in colour (master, grandmaster, etc)  
-- Elo rating  
+- Contest rating  
 - Problems solved  
 - Contests written (rated)  
 - Total points  
