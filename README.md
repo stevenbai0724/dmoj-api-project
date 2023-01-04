@@ -33,4 +33,4 @@ PORT=5000
 # In progress features:
 - Plot problem type on a radar chart  
 - Use a database of problems, users and organizations  
-- Error handleing for search
+- Error handleing for search ✅
