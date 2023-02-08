@@ -25,8 +25,8 @@ PORT=5000
     - percentile  
     - contest name + date  
   
+<img width="1121" alt="image" src="https://user-images.githubusercontent.com/51672429/210898657-21304834-d0b4-4fe2-a1c9-0d7c6fee95cd.png">
 
-![image](https://user-images.githubusercontent.com/51672429/156627657-9669fe82-1d80-401d-8b63-b3faf6c50365.png)
 
 
 
