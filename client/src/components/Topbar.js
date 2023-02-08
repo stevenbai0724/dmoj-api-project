@@ -85,7 +85,7 @@ function App({sendstuff}) {
             const postBody = {
                 name: `${user}`,
                 user: `https://dmoj.ca/api/v2/user/${user}`,
-                sub: `https://dmoj.ca/api/user/submissions/${user}`
+                sub: `https://dmoj.ca/api/v2/submissions?user=${user}`
             }
 
             async function fetchData(){

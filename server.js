@@ -2,9 +2,10 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const axios = require('axios')
+const axios = require('axios');
+const { assert } = require('console');
 //don't congif() here for deployment, only for dev testing
-//require('dotenv').config()
+require('dotenv').config()
 const PORT = process.env.PORT || 5000;
 
 //deployment stuff
@@ -28,8 +29,10 @@ app.post('/api/user', async (req, res) => {
         },
     }
     try{
-        const res2 = await axios.get(req.body.user, requestOptions) //user profile
-        const res3 = await axios.get(req.body.sub, requestOptions) //user subumissions
+        const res2 = await axios.get(req.body.user) //user profile
+        console.log(res2.data);
+        const res3 = await axios.get(req.body.sub) //user subumissions
+        console.log(res3.data);
 
         //from this point, the user is valid
         var profile = (res2.data.data); // object for id, username, etc
@@ -62,10 +65,10 @@ app.post('/api/user', async (req, res) => {
                 obj.rating = curContest.rating
                 obj.contest = curContest.key
 
-                const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`, requestOptions) // contest details of the current contest
-
-                var contestDetails = res4.data.data.object
                 
+                const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`, requestOptions) // contest details of the current contest
+                var contestDetails = res4.data.data.object
+            
                 obj.date = contestDetails.end_time.substring(0,10);
                 obj.name = contestDetails.name;
 
@@ -85,6 +88,8 @@ app.post('/api/user', async (req, res) => {
                 obj.link = `/${curContest.key}/ranking/#!${profile.object.username}`
                 obj.ratingChange = obj.rating - obj.ratingOld
                 profile.object.contestData.push(obj);
+                
+                
             }
         }
 
@@ -130,7 +135,7 @@ app.post('/api/user', async (req, res) => {
             ],
     
         }}
-        console.log("user does not exist");
+        console.log("user does not exist " + err.message);
 
 
         res.json(obj_error)
