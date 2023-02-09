@@ -245,7 +245,7 @@ function App() {
 
             {
               show && !data.object.valid && 
-              <h2 className = {classes.rank} style={{color: "white"}}>{data.object.username}</h2>
+              <h2 className = {classes.rank} style={{color: "white"}}>{data.object.username} is not a valid user</h2>
             }
 
             {
@@ -344,12 +344,7 @@ function App() {
 
                     
                     }
-                      
-
-
-
-
-                    
+                                        
                 </div>
             }
             

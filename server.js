@@ -19,24 +19,20 @@ app.get('*', function (req, res) {
 });
 
 app.post('/api/user', async (req, res) => {
-
-    const API_KEY = process.env.API_KEY;
-
-    // authentication header
-    const requestOptions = {
-        headers: { 
-            Authorization: `Bearer ${API_KEY}`
-        },
-    }
+    var res2;
+    var res3;
     try{
-        const res2 = await axios.get(req.body.user) //user profile
-        console.log(res2.data);
-        const res3 = await axios.get(req.body.sub) //user subumissions
-        console.log(res3.data);
+        try{
+            res2 = await axios.get(req.body.user) //user profile
+            res3 = await axios.get(req.body.sub); //user subumissions
+        }
+        catch(err){
+            console.log("error in requesting user profile and submissions: " + err.message + "\n");
+        }
+
 
         //from this point, the user is valid
         var profile = (res2.data.data); // object for id, username, etc
-        var submissions = (res3.data); // array of all submissions
         var cnt = 0;
 
 
@@ -66,7 +62,7 @@ app.post('/api/user', async (req, res) => {
                 obj.contest = curContest.key
 
                 
-                const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`, requestOptions) // contest details of the current contest
+                const res4 = await axios.get(`https://dmoj.ca/api/v2/contest/${curContest.key}`) // contest details of the current contest
                 var contestDetails = res4.data.data.object
             
                 obj.date = contestDetails.end_time.substring(0,10);
@@ -89,21 +85,20 @@ app.post('/api/user', async (req, res) => {
                 obj.ratingChange = obj.rating - obj.ratingOld
                 profile.object.contestData.push(obj);
                 
-                
             }
         }
 
         profile.object.contestCount = cnt.toString();
-        profile.object.subCount = Object.keys(submissions).length
+        profile.object.subCount = res3.data.data.total_objects;
 
-        console.log(profile);
+        console.log("user profile: \n" + JSON.stringify(profile) + "\n");
         res.json(profile)
     }
     catch(err){
         var obj_error = {object : {
             valid: false,
             id: "null",
-            username: `${req.body.name} is not a valid user`,
+            username: `${req.body.name}`,
             points: 0,
             performance_points: 0,
             problem_count: 0,
@@ -140,12 +135,6 @@ app.post('/api/user', async (req, res) => {
 
         res.json(obj_error)
     }
-
-
-    
-
-    
-    
 
 
 })
