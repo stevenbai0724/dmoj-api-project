@@ -10,7 +10,7 @@ PORT=5000
 
 
 # Current Features:
-- Search bar for user  
+- Search bar for users  
 - User title in colour (master, grandmaster, etc)  
 - Contest rating  
 - Problems solved  
